@@ -75,7 +75,6 @@ def sendfrom(player):
     systemstate=nres.final_state
 
 def printcursumqubits(i):
-    # factor = math.sqrt(2**(n - 1 - i))
     zeroind = 0
     for j in range(2 * k * i):
         if measuredstates[j]:
@@ -83,34 +82,23 @@ def printcursumqubits(i):
 
     for l in range(k):
         oneind = zeroind + 2 ** (2 * k * n - k - 1 - 2 * k * i - l)
-        # print("zeroind = {}, oneind = {}".format(zeroind, oneind))
-        zeronorm = 0 # zerocoef.real ** 2 + zerocoef.imag ** 2
-        onenorm = 0 # onecoef.real ** 2 + onecoef.imag ** 2
-        # zerocoefsum = 0
-        # onecoefsum = 0
+        zeronorm = 0
+        onenorm = 0
         for a in range(2**l):
             for b in range(2**(k - 1 - l)):
                 shift = 2 ** (2 * k * n - k - 2 * k * i - l) * a + 2 ** (2 * k * n - k - 2 * k * i - k) * b
-                # print("shift {}".format(shift))
                 zerocoef = systemstate[zeroind + shift]
                 onecoef = systemstate[oneind + shift]
-                # print("zero at {} = {}, one at {} = {}".format(zeroind + shift, "{0:b}".format(zeroind + shift), oneind + shift, "{0:b}".format(oneind + shift)))
                 zeronorm += zerocoef.real ** 2 + zerocoef.imag ** 2
                 onenorm += onecoef.real ** 2 + onecoef.imag ** 2
-                # zerocoefsum += zerocoef
-                # onecoefsum += onecoef
-                # print("adding {} and {}".format(zerocoef, onecoef))
-        # zeronorm = zerocoefsum.real ** 2 + zerocoefsum.imag ** 2
-        # onenorm = onecoefsum.real ** 2 + onecoefsum.imag ** 2
         norm = zeronorm + onenorm
-        # print(norm)
         normrt = math.sqrt(norm)
 
         print("2^{} sum 0: {}".format(l, zeronorm / norm))
         print("2^{} sum 1: {}".format(l, onenorm / norm))
 
-n = 3
-k = 4
+n = 5
+k = 2
 showstate = True
 showcommunication = True
 qubs = [cirq.GridQubit(i, 0) for i in range(2 * k * n - k)]
