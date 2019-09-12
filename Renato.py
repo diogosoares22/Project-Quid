@@ -5,7 +5,8 @@ def game(list_real):
     n=len(list_real)
     numr_bits=bits_transform(n)
     numr_qubits=2*n-1
-    
+    qubits = [cirq.GridQubit(i, 0) for i in range(numr_qubits)]
+
     return value
 
 def bits_transform(n):
