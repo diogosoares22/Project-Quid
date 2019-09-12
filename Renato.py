@@ -1,4 +1,5 @@
 import cirq
+import random
 
 def game(list_real):
     n=len(list_real)
@@ -28,3 +29,23 @@ def bits_to_basis(bitstring):
         return 'Z'
     elif bitstring=='11':
         return 'XZ'
+
+def generate_reals(length):
+    reals = []
+    total = 0
+    for i in range(length - 1):
+        appended = random.uniform(-3, 3)
+        reals.append(appended)
+        total += appended
+    total %= 1
+    reals.append(1 - total + random.randint(-3, 2))
+    return reals
+    
+
+n = 7
+
+if __name__ == "__main__":
+    print("Playing the game with {} players.".format(n))
+    reals = generate_reals(n)
+    print(reals)
+    print("The sum is {}.".format(sum(reals)))
