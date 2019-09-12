@@ -4,7 +4,7 @@ import random
 def game(list_real):
     n=len(list_real)
     numr_bits=bits_transform(n)
-    numr_qubits=2*(n-1)
+    numr_qubits=2*n-1
     
     return value
 
