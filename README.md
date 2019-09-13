@@ -8,7 +8,9 @@ The fully tested programs are powerTwoGame.py and powerTwoAccel.py. Both impleme
 
 run
 
+```bash
 python powerTwoGame.py
+```
 
 to run the game with default parameters (n = 2, k = 3)
 
