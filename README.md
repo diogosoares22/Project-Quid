@@ -34,3 +34,5 @@ to optionally also print information about the state of the qubits throughout th
 ## powerTwoGame.py vs. powerTwoAccel.py
 
 powerTwoGame.py keeps the state of all qubits throughout the process, powerTwoAccel.py only uses as many qubits as are needed at any given point of time. Thus, powerTwoAccel.py is (for larger n) much more time- and space-efficient than powerTwoGame.py.
+
+We are reapeatedly able to run powerTwoAccel.py with n = 110 and k = 1, n = 55 and k = 2, n = 2 and k = 8. For larger parameters, imprecise floating-point arithmetic often makes cirq crash. 
