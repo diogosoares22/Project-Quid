@@ -97,8 +97,8 @@ def printcursumqubits(i):
         print("2^{} sum 0: {}".format(l, zeronorm / norm))
         print("2^{} sum 1: {}".format(l, onenorm / norm))
 
-n = 5
-k = 2
+n = 20
+k = 1
 showstate = True
 showcommunication = True
 qubs = [cirq.GridQubit(i, 0) for i in range(2 * k * n - k)]
