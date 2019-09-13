@@ -202,4 +202,3 @@ if __name__ == "__main__":
             if res.measurements['f'][i]:
                 result += 2**i
         print("Measured {}. The sum is {} mod {}.".format(binar, result, modulo))
-        print(binar)
