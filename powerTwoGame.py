@@ -4,10 +4,13 @@ import math
 import sys
 import getopt
 
+# keeps the state of all the qubits through the whole procedure. An array of length 2**(2*k*n-k)
 systemstate = None
 
+# keep measurements results for the qubits which have already been measured. Used to get to the required indicies in the systemstate array
 measuredstates = []
 
+# randomly generates a list of length n (a global variable) of real numbers which sum to an integer
 def generate_reals():
     reals = []
     total = 0
@@ -19,6 +22,8 @@ def generate_reals():
     reals.append(1 - total + random.randint(-2**(k + 1) + 1, 2**(k + 1) - 2))
     return reals
     
+# acts on the systemstate; does the initial entanglement of the qubits so that the players can later teleport their qubits
+# this is the only part of the procedure, for which the players need to be together. This happens before they have the real numbers
 def prepare_entangled():
     global systemstate
     circuit = cirq.Circuit()
@@ -31,6 +36,10 @@ def prepare_entangled():
     res = cirq.Simulator().simulate(circuit, qubit_order = qubs)
     systemstate = res.final_state
 
+# acts on the systemstate; operates on the qubits of the specified player to add the specified real number
+# parameters
+#    player: index of the player somewhere in range(n)
+#    real: the real number to be added
 def addnum(player, real):
     global systemstate
     circuit = cirq.Circuit()
@@ -39,6 +48,9 @@ def addnum(player, real):
     res = cirq.Simulator().simulate(circuit, qubit_order = qubs, initial_state=systemstate)
     systemstate = res.final_state
 
+# acts on the systemstate; operates on the qubits of the specified player and its successor to teleport the qubits which store the sum
+# parameters
+#    player: index of the player somewhere in range(n - 1) (not n - 1 because the last player does not have a successor)
 def sendfrom(player):
     global systemstate
     global measuredstates
@@ -76,6 +88,9 @@ def sendfrom(player):
     nres = cirq.Simulator().simulate(circuit2, qubit_order = qubs, initial_state=systemstate)
     systemstate=nres.final_state
 
+# for each of the qubits which store the sum, calculates and prints the probability of it being 0 or 1 when measured
+# parameters
+#    i: the index of the player which currently has the qubits with the sum
 def printcursumqubits(i):
     zeroind = 0
     for j in range(2 * k * i):
@@ -101,7 +116,10 @@ def printcursumqubits(i):
 
 if __name__ == "__main__":
     global n, k, showstate, showcommunication, qubs
+    
+    # initialize parameters
     if len(sys.argv) > 1:
+        # parse command line arguments to get parameters
         try:
             ops, otherargs = getopt.getopt(sys.argv[1:], 'sc')
         except Exception as e:
@@ -135,6 +153,7 @@ if __name__ == "__main__":
             print("k = {} < 1 is invalid.".format(k))
             exit(0)
     else:
+        # initialize to some default because no command line arguments were given
         n = 2
         k = 3
         showstate = False
@@ -174,7 +193,8 @@ if __name__ == "__main__":
     if showstate:
         printcursumqubits(n - 1)
     print()
-
+    
+    # do the final measurement and process results
     mescircuit = cirq.Circuit()
     for i in range(k):
         controlqubit = cirq.GridQubit(2 * k * n - 2 * k + i, 0)
