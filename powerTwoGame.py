@@ -1,6 +1,8 @@
 import cirq
 import random
 import math
+import sys
+import getopt
 
 systemstate = None
 
@@ -97,14 +99,48 @@ def printcursumqubits(i):
         print("2^{} sum 0: {}".format(l, zeronorm / norm))
         print("2^{} sum 1: {}".format(l, onenorm / norm))
 
-n = 20
-k = 1
-showstate = True
-showcommunication = True
-qubs = [cirq.GridQubit(i, 0) for i in range(2 * k * n - k)]
-modulo = 2**k
-
 if __name__ == "__main__":
+    global n, k, showstate, showcommunication, qubs
+    if len(sys.argv) > 1:
+        try:
+            ops, otherargs = getopt.getopt(sys.argv[1:], 'sc')
+        except Exception as e:
+            print("Invalid option.")
+            print(e.msg)
+            exit(0)
+        showstate = False
+        showcommunication = False
+        for op in ops:
+            if op[0] == '-s':
+                showstate = True
+            if op[0] == '-c':
+                showcommunication = True
+        if len(otherargs) != 2:
+            print("Need two non-option arguments. Got {} (that is {} argument{}).".format(otherargs, len(otherargs), "" if len(otherargs) == 1 else "s"))
+            exit(0)
+        try:
+            n = int(otherargs[0])
+        except Exception as e:
+            print("{} is not a valid integer.".format(otherargs[0]))
+            exit(0)
+        try:
+            k = int(otherargs[1])
+        except Exception as e:
+            print("{} is not a valid integer.".format(otherargs[0]))
+            exit(0)
+        if (n < 2):
+            print("n = {} < 2 is invalid.".format(n))
+            exit(0)
+        if (k < 1):
+            print("k = {} < 1 is invalid.".format(k))
+            exit(0)
+    else:
+        n = 2
+        k = 3
+        showstate = False
+        showcommunication = False
+    modulo = 2**k
+    qubs = [cirq.GridQubit(i, 0) for i in range(2 * k * n - k)]
     if k == 1:
         print("The game for {} players.".format(n))
     else:
