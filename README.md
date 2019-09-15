@@ -51,7 +51,7 @@ runs the addition algorithm on a simple demonstrative input.
 
 ## Third Implementation
 
-The implementation_of_part3.py implements the strategy we would use for an arbitrary modulus, doing it in quantum wouldn't have any time- or space-efficient, however it can be done using the QFT shown above
+The implementation_of_part3.py implements the strategy we would use for an arbitrary modulus (in a classical computer), doing it in quantum wouldn't have any time- or space-efficiency increase, however it can be done using the QFT shown above
 
 ```bash
 python implementation_of_part3.py
