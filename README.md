@@ -48,3 +48,12 @@ python Qft_Functions.py
 ```
 
 runs the addition algorithm on a simple demonstrative input.
+
+## Third Implementation
+
+The implementation_of_part3.py implements the strategy we would use for an arbitrary modulus, doing it in quantum wouldn't have any time- or space-efficient, however it can be done using the QFT shown above
+
+```bash
+python implementation_of_part3.py
+```
+
